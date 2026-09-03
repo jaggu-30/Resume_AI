@@ -1,0 +1,44 @@
+skill,type,title,provider,url,is_free,level
+Python,Course,Kaggle Python,Kaggle,https://www.kaggle.com/learn/python,Yes,Beginner
+Python,Course,Python Tutorial,Python.org,https://docs.python.org/3/tutorial/,Yes,Beginner
+Python,Video,Python for Beginners,freeCodeCamp,https://www.youtube.com/watch?v=rfscVS0vtbw,Yes,Beginner
+SQL,Course,Intro to SQL,Kaggle,https://www.kaggle.com/learn/intro-to-sql,Yes,Beginner
+SQL,Practice,SQL Practice,HackerRank,https://www.hackerrank.com/domains/sql,Yes,Beginner
+SQL,Course,SQL Learning Path,Khan Academy,https://www.khanacademy.org/computing/computer-programming/sql,Yes,Beginner
+Pandas,Course,Pandas,Kaggle,https://www.kaggle.com/learn/pandas,Yes,Beginner
+Pandas,Docs,Getting Started Tutorials,pandas,https://pandas.pydata.org/docs/getting_started/intro_tutorials/,Yes,Beginner
+Pandas,Course,Explore and Analyze Data with Python,Microsoft Learn,https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/,Yes,Intermediate
+NumPy,Docs,NumPy User Guide,NumPy,https://numpy.org/doc/stable/user/,Yes,Beginner
+NumPy,Practice,NumPy Exercises,GitHub,https://github.com/rougier/numpy-100,Yes,Intermediate
+Machine Learning,Course,Machine Learning for Beginners,Microsoft,https://github.com/microsoft/ML-For-Beginners,Yes,Beginner
+Machine Learning,Video,Machine Learning for Beginners,Microsoft Learn,https://learn.microsoft.com/en-us/shows/machine-learning-for-beginners/,Yes,Beginner
+Machine Learning,Course,Intro to Machine Learning,Kaggle,https://www.kaggle.com/learn/intro-to-machine-learning,Yes,Beginner
+Scikit-learn,Docs,Scikit-learn User Guide,Scikit-learn,https://scikit-learn.org/stable/user_guide.html,Yes,Intermediate
+Scikit-learn,Course,Machine Learning for Beginners,Microsoft,https://github.com/microsoft/ML-For-Beginners,Yes,Beginner
+Deep Learning,Course,Deep Learning,Kaggle,https://www.kaggle.com/learn/intro-to-deep-learning,Yes,Beginner
+Deep Learning,Course,Deep Learning Specialization Resources,DeepLearning.AI,https://www.deeplearning.ai/,Yes,Beginner
+TensorFlow,Course,TensorFlow Tutorials,TensorFlow,https://www.tensorflow.org/tutorials,Yes,Beginner
+TensorFlow,Docs,TensorFlow Documentation,TensorFlow,https://www.tensorflow.org/learn,Yes,Beginner
+PyTorch,Course,Learn the Basics,PyTorch,https://docs.pytorch.org/tutorials/beginner/basics/intro.html,Yes,Beginner
+PyTorch,Docs,PyTorch Tutorials,PyTorch,https://docs.pytorch.org/tutorials/,Yes,Beginner
+NLP,Course,Intro to NLP,Kaggle,https://www.kaggle.com/learn/natural-language-processing,Yes,Intermediate
+NLP,Course,NLP For Beginners,Kaggle,https://www.kaggle.com/learn/natural-language-processing,Yes,Beginner
+Transformers,Course,Transformers Course,Hugging Face,https://huggingface.co/learn/nlp-course,Yes,Intermediate
+Transformers,Docs,Transformers Documentation,Hugging Face,https://huggingface.co/docs/transformers/index,Yes,Intermediate
+Computer Vision,Course,Computer Vision,Kaggle,https://www.kaggle.com/learn/computer-vision,Yes,Beginner
+OpenCV,Course,OpenCV Tutorials,OpenCV,https://docs.opencv.org/4.x/d9/df8/tutorial_root.html,Yes,Beginner
+CNN,Course,Computer Vision,Kaggle,https://www.kaggle.com/learn/computer-vision,Yes,Beginner
+YOLO,Docs,Ultralytics YOLO Docs,Ultralytics,https://docs.ultralytics.com/,Yes,Intermediate
+LLM,Course,LLM Course,Hugging Face,https://huggingface.co/learn/llm-course,Yes,Intermediate
+RAG,Course,RAG From Scratch,LangChain,https://github.com/langchain-ai/rag-from-scratch,Yes,Intermediate
+Artificial Intelligence,Course,AI for Beginners,Microsoft,https://microsoft.github.io/AI-For-Beginners/,Yes,Beginner
+Hugging Face,Course,Hugging Face Course,Hugging Face,https://huggingface.co/learn/nlp-course,Yes,Intermediate
+FastAPI,Docs,FastAPI Tutorial,FastAPI,https://fastapi.tiangolo.com/tutorial/,Yes,Beginner
+Django,Docs,Django Tutorial,Django,https://docs.djangoproject.com/en/stable/intro/tutorial01/,Yes,Beginner
+Flask,Docs,Flask Quickstart,Flask,https://flask.palletsprojects.com/en/stable/quickstart/,Yes,Beginner
+REST API,Course,REST API Tutorial,MDN,https://developer.mozilla.org/en-US/docs/Glossary/REST,Yes,Beginner
+APIs,Docs,API Fundamentals,MDN,https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Introduction,Yes,Beginner
+Docker,Docs,Docker Get Started,Docker,https://docs.docker.com/get-started/,Yes,Beginner
+Git,Course,Git and GitHub Learning Resources,GitHub,https://docs.github.com/en/get-started/start-your-journey/git-and-github-learning-resources,Yes,Beginner
+GitHub,Practice,GitHub Skills,GitHub,https://skills.github.com/,Yes,Beginner
+Statistics,Course,Statistics and Probability,Khan Academy,https://www.khanacademy.org/math/statistics-probability,Yes,Beginner

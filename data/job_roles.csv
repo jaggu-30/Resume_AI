@@ -1,0 +1,10 @@
+job_role,skills,description
+Data Analyst,"Python|SQL|Excel|Pandas|Power BI","Analyze data, create reports, build dashboards, and generate business insights."
+Machine Learning Engineer,"Python|Machine Learning|Scikit-learn|Pandas|NumPy|FastAPI|Docker","Build, train, deploy, and maintain machine learning models."
+AI Engineer,"Python|Artificial Intelligence|Machine Learning|Deep Learning|LLM|RAG|APIs","Develop AI-powered applications using machine learning and modern AI technologies."
+NLP Engineer,"Python|NLP|Transformers|LLM|RAG|Hugging Face|Machine Learning","Develop systems that process and understand human language."
+Computer Vision Engineer,"Python|Computer Vision|OpenCV|CNN|YOLO|Deep Learning|PyTorch","Develop applications that analyze and understand images and video."
+Python Developer,"Python|Git|GitHub|Django|Flask|FastAPI|REST API","Develop software applications and backend services using Python."
+Data Scientist,"Python|SQL|Pandas|NumPy|Machine Learning|Scikit-learn|Statistics|Matplotlib","Analyze complex datasets and develop predictive models."
+Backend Developer,"Python|Django|Flask|FastAPI|REST API|SQL|Git|Docker","Build and maintain server-side applications and APIs."
+AI/ML Intern,"Python|Artificial Intelligence|Machine Learning|Pandas|NumPy|Scikit-learn|GitHub","Support AI and machine learning projects while developing practical skills."
