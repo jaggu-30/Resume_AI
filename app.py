@@ -25,6 +25,10 @@ from learning_resources import (
     get_youtube_search_url,
 )
 
+# ---- NEW: ATS & Quality modules (additive, non-destructive) ----
+from ats_analyzer import analyze_ats
+from resume_quality_analyzer import analyze_resume_quality, analyze_ai_writing
+
 st.set_page_config(
     page_title="AI Resume Analyzer",
     page_icon="📄",
@@ -1340,6 +1344,273 @@ run the analyzer again to see how your career matches change.
 
 
 # ============================================================
+# ATS & RESUME QUALITY  (NEW — additive section)
+# ============================================================
+
+render_html(
+    """
+<div class="section-title">
+    📊 ATS &amp; Resume Quality
+</div>
+
+<div class="section-description">
+    Estimated ATS compatibility, keyword coverage, resume quality review,
+    and AI-writing originality indicators for your selected target role.
+</div>
+"""
+)
+
+try:
+
+    ats_results = analyze_ats(
+        extracted_text=extracted_text,
+        resume_skills=resume_skills,
+        sections=sections,
+        target_role=target_role,
+    )
+
+    quality_results = analyze_resume_quality(extracted_text)
+    ai_results      = analyze_ai_writing(extracted_text)
+
+    # ----------------------------------------------------------
+    # ATS SCORE — big hero metric
+    # ----------------------------------------------------------
+
+    render_html(
+        """
+<div class="card" style="margin-bottom:1.5rem;">
+<p style="font-size:0.8rem;font-weight:700;letter-spacing:1px;
+           text-transform:uppercase;opacity:0.55;margin-bottom:0.4rem;">
+    Estimated ATS Compatibility Score
+</p>
+"""
+    )
+
+    ats_score = ats_results["ats_score"]
+
+    if ats_score >= 75:
+        score_color = "#22c55e"
+        score_label = "Good"
+    elif ats_score >= 50:
+        score_color = "#f59e0b"
+        score_label = "Moderate"
+    else:
+        score_color = "#ef4444"
+        score_label = "Needs Improvement"
+
+    render_html(
+        f"""
+<p style="font-size:3.2rem;font-weight:900;color:{score_color};
+           margin:0;line-height:1;">
+    {ats_score} <span style="font-size:1.4rem;opacity:0.6;">/ 100</span>
+</p>
+<p style="font-size:0.9rem;color:{score_color};margin-top:0.3rem;">
+    {score_label}
+</p>
+</div>
+"""
+    )
+
+    # ----------------------------------------------------------
+    # BREAKDOWN METRICS
+    # ----------------------------------------------------------
+
+    breakdown = ats_results["breakdown"]
+
+    st.markdown("#### 📈 Score Breakdown")
+
+    col_a, col_b, col_c = st.columns(3)
+
+    breakdown_items = list(breakdown.items())
+
+    with col_a:
+        label, val = breakdown_items[0]   # Keyword Coverage
+        st.metric(label, f"{val:.0f}%")
+        st.progress(min(val / 100, 1.0))
+
+    with col_b:
+        label, val = breakdown_items[1]   # Skill Coverage
+        st.metric(label, f"{val:.0f}%")
+        st.progress(min(val / 100, 1.0))
+
+    with col_c:
+        label, val = breakdown_items[2]   # Section Completeness
+        st.metric(label, f"{val:.0f}%")
+        st.progress(min(val / 100, 1.0))
+
+    col_d, col_e, _ = st.columns(3)
+
+    with col_d:
+        label, val = breakdown_items[3]   # Resume Structure
+        st.metric(label, f"{val:.0f}%")
+        st.progress(min(val / 100, 1.0))
+
+    with col_e:
+        label, val = breakdown_items[4]   # Contact Info
+        st.metric(label, f"{val:.0f}%")
+        st.progress(min(val / 100, 1.0))
+
+    # ----------------------------------------------------------
+    # KEYWORD MATCH
+    # ----------------------------------------------------------
+
+    st.markdown("---")
+    kw_col_a, kw_col_b = st.columns(2)
+
+    with kw_col_a:
+        st.markdown("##### ✅ Matched Keywords")
+        matched_kws = ats_results["keyword_cov"]["matched"]
+        if matched_kws:
+            matched_kw_html = ""
+            for kw in matched_kws:
+                matched_kw_html += (
+                    f'<span class="matched-pill">✓ {kw}</span>'
+                )
+            render_html(matched_kw_html)
+        else:
+            st.info("No required keywords matched for this role.")
+
+    with kw_col_b:
+        st.markdown("##### ❌ Missing Important Keywords")
+        missing_kws = ats_results["keyword_cov"]["missing"]
+        if missing_kws:
+            missing_kw_html = ""
+            for kw in missing_kws:
+                missing_kw_html += (
+                    f'<span class="missing-pill">✗ {kw}</span>'
+                )
+            render_html(missing_kw_html)
+        else:
+            st.success("🎉 All required keywords are present!")
+
+    # ----------------------------------------------------------
+    # ATS IMPROVEMENT SUGGESTIONS
+    # ----------------------------------------------------------
+
+    with st.expander(
+        "💡 ATS Improvement Suggestions",
+        expanded=False,
+    ):
+        for suggestion in ats_results["suggestions"]:
+            st.markdown(f"• {suggestion}")
+
+    # ----------------------------------------------------------
+    # RESUME QUALITY REVIEW
+    # ----------------------------------------------------------
+
+    st.markdown("---")
+    st.markdown("#### 📝 Resume Quality Review")
+
+    ql = quality_results["quality_levels"]
+
+    q1, q2, q3 = st.columns(3)
+    with q1:
+        st.metric("Generic Phrases", quality_results["generic_count"])
+    with q2:
+        st.metric("Repeated Phrases",
+                  len(quality_results["repeated_phrases"]))
+    with q3:
+        st.metric("Quantified Achievements",
+                  quality_results["quantified_count"])
+
+    render_html(
+        """
+<div class="card" style="margin-top:0.8rem;">
+"""
+    )
+
+    for metric_name, level in ql.items():
+        if level == "Low":
+            icon = "🔴"
+        elif level == "Moderate":
+            icon = "🟡"
+        else:
+            icon = "🟢"
+        st.markdown(
+            f"**{metric_name}** — {icon} {level}"
+        )
+
+    render_html("</div>")
+
+    with st.expander(
+        "📋 Quality Improvement Suggestions",
+        expanded=False,
+    ):
+        for s in quality_results["suggestions"]:
+            st.markdown(f"• {s}")
+
+        if quality_results["generic_phrases"]:
+            st.markdown("**Generic phrases detected:**")
+            for gp in quality_results["generic_phrases"][:5]:
+                st.markdown(f"  - *{gp}*")
+
+        if quality_results["buzzwords_found"]:
+            st.markdown("**Buzzwords found:**")
+            for bw in quality_results["buzzwords_found"][:5]:
+                st.markdown(f"  - *{bw}*")
+
+    # ----------------------------------------------------------
+    # AI-WRITING / ORIGINALITY REVIEW
+    # ----------------------------------------------------------
+
+    st.markdown("---")
+    st.markdown("#### 🔍 AI-Writing / Originality Review")
+
+    render_html(
+        """
+<div style="font-size:0.78rem;opacity:0.55;margin-bottom:1rem;">
+⚠️ These are qualitative pattern indicators only.
+This system cannot determine whether content is AI-generated,
+and does not produce an AI-generation percentage.
+Use these suggestions to make your resume more specific and authentic.
+</div>
+"""
+    )
+
+    ai_ind = ai_results["indicators"]
+
+    ai_col1, ai_col2 = st.columns(2)
+
+    ind_items = list(ai_ind.items())
+    half = (len(ind_items) + 1) // 2
+
+    with ai_col1:
+        for metric_name, level in ind_items[:half]:
+            if metric_name in ("Quantified Achievements",
+                               "Specificity", "Action-Oriented Language"):
+                # For these, High is GOOD
+                icon = "🟢" if level == "High" else ("🟡" if level == "Moderate" else "🔴")
+            else:
+                # For these, Low is GOOD
+                icon = "🟢" if level == "Low" else ("🟡" if level == "Moderate" else "🔴")
+            st.markdown(f"**{metric_name}** — {icon} {level}")
+
+    with ai_col2:
+        for metric_name, level in ind_items[half:]:
+            if metric_name in ("Quantified Achievements",
+                               "Specificity", "Action-Oriented Language",
+                               "Sentence Variety"):
+                icon = "🟢" if level in ("High", "Low") else "🟡"
+            else:
+                icon = "🟢" if level == "Low" else ("🟡" if level == "Moderate" else "🔴")
+            st.markdown(f"**{metric_name}** — {icon} {level}")
+
+    with st.expander(
+        "💬 Originality Suggestions",
+        expanded=False,
+    ):
+        for s in ai_results["suggestions"]:
+            st.markdown(f"• {s}")
+
+except Exception as ats_error:
+
+    st.warning(
+        f"⚠️ ATS analysis could not complete: {ats_error}. "
+        "Your existing resume analysis above is unaffected."
+    )
+
+
+# ============================================================
 # PDF REPORT
 # ============================================================
 
@@ -1366,6 +1637,8 @@ try:
         target_role=target_role,
         skill_analysis=analysis,
         roadmap=roadmap,
+        ats_results=locals().get("ats_results"),
+        quality_results=locals().get("quality_results"),
     )
 
     st.download_button(

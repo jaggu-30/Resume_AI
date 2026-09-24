@@ -20,6 +20,8 @@ def generate_pdf_report(
     target_role,
     skill_analysis,
     roadmap,
+    ats_results=None,
+    quality_results=None,
 ):
     """
     Generate a downloadable PDF analysis report.
@@ -382,6 +384,132 @@ def generate_pdf_report(
             normal_style,
         )
     )
+
+    # --------------------------------------------------
+    # ATS RESULTS  (appended only when provided)
+    # --------------------------------------------------
+
+    if ats_results is not None:
+
+        story.append(
+            Paragraph(
+                "6. Estimated ATS Compatibility",
+                heading_style,
+            )
+        )
+
+
+
+        ats_score = ats_results.get("ats_score", 0)
+        story.append(
+            Paragraph(
+                f"<b>Estimated ATS Score: {ats_score} / 100</b>",
+                normal_style,
+            )
+        )
+
+        story.append(Spacer(1, 6))
+
+        # Breakdown table
+        breakdown = ats_results.get("breakdown", {})
+        if breakdown:
+            bd_data = [["Component", "Score (%)"]]
+            for label, val in breakdown.items():
+                bd_data.append([label, f"{val:.0f}%"])
+            bd_table = Table(bd_data, colWidths=[280, 100])
+            bd_table.setStyle(
+                TableStyle(
+                    [
+                        ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+                        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ]
+                )
+            )
+            story.append(bd_table)
+
+        story.append(Spacer(1, 8))
+
+        # Matched keywords
+        matched_kws = ats_results.get("keyword_cov", {}).get("matched", [])
+        story.append(
+            Paragraph("<b>Matched Keywords</b>", normal_style)
+        )
+        if matched_kws:
+            story.append(
+                Paragraph(", ".join(matched_kws), normal_style)
+            )
+        else:
+            story.append(
+                Paragraph("None matched.", normal_style)
+            )
+
+        story.append(Spacer(1, 6))
+
+        # Missing keywords
+        missing_kws = ats_results.get("keyword_cov", {}).get("missing", [])
+        story.append(
+            Paragraph("<b>Missing Important Keywords</b>", normal_style)
+        )
+        if missing_kws:
+            story.append(
+                Paragraph(", ".join(missing_kws), normal_style)
+            )
+        else:
+            story.append(
+                Paragraph("All required keywords present.", normal_style)
+            )
+
+        story.append(Spacer(1, 6))
+
+        # ATS suggestions
+        ats_suggestions = ats_results.get("suggestions", [])
+        if ats_suggestions:
+            story.append(
+                Paragraph("<b>ATS Improvement Suggestions</b>", normal_style)
+            )
+            for s in ats_suggestions:
+                story.append(Paragraph(f"\u2022 {s}", normal_style))
+
+    # --------------------------------------------------
+    # RESUME QUALITY  (appended only when provided)
+    # --------------------------------------------------
+
+    if quality_results is not None:
+
+        story.append(
+            Paragraph(
+                "7. Resume Quality Review",
+                heading_style,
+            )
+        )
+
+        qlevels = quality_results.get("quality_levels", {})
+        if qlevels:
+            ql_data = [["Metric", "Level"]]
+            for metric, level in qlevels.items():
+                ql_data.append([metric, level])
+            ql_table = Table(ql_data, colWidths=[280, 100])
+            ql_table.setStyle(
+                TableStyle(
+                    [
+                        ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+                        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ]
+                )
+            )
+            story.append(ql_table)
+
+        story.append(Spacer(1, 6))
+
+        q_suggestions = quality_results.get("suggestions", [])
+        if q_suggestions:
+            story.append(
+                Paragraph("<b>Quality Suggestions</b>", normal_style)
+            )
+            for s in q_suggestions:
+                story.append(Paragraph(f"\u2022 {s}", normal_style))
 
     document.build(story)
 
